@@ -7,11 +7,11 @@ def preprocess_image(img):
     img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     
     
-    gamma = 2
+    gamma = 1.5
     img_corrected = np.uint8(np.clip((img_gray / 255.0) ** gamma * 255.0, 0, 255))
     
     
-    clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(10, 10))  
+    clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))  
     img_clahe = clahe.apply(img_corrected)
     
     return img_clahe
