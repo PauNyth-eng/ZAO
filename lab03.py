@@ -2,7 +2,19 @@ import glob
 import cv2 as cv
 import numpy as np
 
-
+def preprocess_image(img):
+    
+    img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    
+    
+    gamma = 2
+    img_corrected = np.uint8(np.clip((img_gray / 255.0) ** gamma * 255.0, 0, 255))
+    
+    
+    clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(10, 10))  
+    img_clahe = clahe.apply(img_corrected)
+    
+    return img_clahe
 
 def order_points(pts):
     # initialzie a list of coordinates that will be ordered
@@ -108,8 +120,8 @@ def main(argv):
             one_palce_img = cv.resize(one_palce_img, size)
 
             temp = cv.imread(template)         
-            temp_gray = cv.cvtColor(temp, cv.COLOR_BGR2GRAY)
-            one_palce_img_gray = cv.cvtColor(one_palce_img, cv.COLOR_BGR2GRAY)
+            temp_gray = preprocess_image(temp)
+            one_palce_img_gray = preprocess_image(one_palce_img)
 
 
             #one_palce_img_gray = cv.equalizeHist(one_palce_img_gray)
@@ -135,7 +147,7 @@ def main(argv):
             print(min_val, max_val)
             
             
-            if max_val > 0.97392:
+            if max_val > 0.9394:
                 cv.circle(img_clone, (center_x, center_y), 10, (0, 255, 0), -1)
                 if int(res_lines[n_park - 1]) == 0:
                     total_correct_parkings += 1
