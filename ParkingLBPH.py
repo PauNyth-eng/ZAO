@@ -86,7 +86,7 @@ def main():
     full_images = [preprocess_image(img) for img in glob.glob("full/*.png")] 
 
     labels = np.concatenate((np.zeros(len(free_images), dtype=np.int32), np.ones(len(full_images), dtype=np.int32)))
-
+    print("Labels: ", labels)
     data = np.concatenate((free_images, full_images))
     radius_options = [1, 2, 3]
     neighbors_options = [4, 8, 16]

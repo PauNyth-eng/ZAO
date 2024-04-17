@@ -10,6 +10,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
 
+#TEsting
+
+
 def order_points(pts):
     # initialzie a list of coordinates that will be ordered
     # such that the first entry in the list is the top-left,
@@ -123,7 +126,7 @@ def main():
         full_features = extract_LBP_features(full_images, **params)
 
         labels = np.concatenate((np.zeros(len(free_features)), np.ones(len(full_features))))
-
+        print("Labels: ", labels)
         data = np.concatenate((free_features, full_features))
 
         X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, random_state=42)
@@ -177,7 +180,10 @@ def main():
         
         
         test_features = extract_LBP_features(testing_images, **params)
+        start_time = time.time()
         predictions = knn.predict(test_features)
+        end_time = time.time()
+        print("Testing time: ", end_time - start_time)
         for i, pred in enumerate(predictions):
             if pred == res_lines[i]:
                 total_correct_parkings += 1
