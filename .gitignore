@@ -1,0 +1,4 @@
+myenv/
+img/
+**/*.zip
+landmarks_models/
